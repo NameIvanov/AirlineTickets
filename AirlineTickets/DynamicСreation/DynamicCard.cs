@@ -155,6 +155,7 @@ namespace AirlineTickets.DynamicСreation
                 {
                     Text = "КУПИТЬ",
                     Name = $"btnBuy_{ticket.Id}",
+                    Tag = ticket,
                     Location = new Point(10, cardHeight - 45),
                     Size = new Size(cardWidth - 40, 25),
                     BackColor = Color.FromArgb(0, 123, 255),
@@ -176,11 +177,19 @@ namespace AirlineTickets.DynamicСreation
             }
         }
 
-            public static void BtnBuy_Click(object sender, EventArgs e)
-            {
-                Button buyButton = (Button)sender;
-                Ticket selectedTicket = (Ticket)buyButton.Tag;
+        public static void BtnBuy_Click(object sender, EventArgs e)
+        {            
+            Button buyButton = (Button)sender;
+            Ticket selectedTicket = (Ticket)buyButton.Tag;
 
+            if (buyButton.Text == "ЗАБРОНИРОВАН")
+            {
+                MessageBox.Show($"Билет '{selectedTicket.Cities}' УЖЕ куплен!",
+                    "Выберите другой рейс",
+                    MessageBoxButtons.OK);
+            }
+            else
+            {
                 DialogResult result = MessageBox.Show(
                 $"Вы уверены, что хотите купить билет?\n\n" +
                 $"Название: {selectedTicket.Cities}\n" +
@@ -192,14 +201,16 @@ namespace AirlineTickets.DynamicСreation
                 MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
-                { 
+                {
 
                     MessageBox.Show($"Билет '{selectedTicket.Cities}' успешно куплен!",
                         "Покупка завершена",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
+                    buyButton.Text = "ЗАБРОНИРОВАН";
                 }
             }
+        }
         public static void ClearExistingTicketCards(Form form)
         {
             foreach (var card in ticketCards)
