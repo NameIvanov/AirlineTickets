@@ -24,29 +24,14 @@ namespace AirlineTickets
             FormBase formbase = new FormBase();
             formbase.Show();
             this.Close();
+
         }
 
         private void buttonAddTicket_Click(object sender, EventArgs e)
         {
-            using(MySqlConnection connection = new MySqlConnection(Constant.ConnectionString))
-            {
-                connection.Open();
-                string sqlQuery = @"INSERT INTO bilets (cities, company, clock, price) values
-                                    (@city, @company, @clock, @price);";
-                using(MySqlCommand command = new MySqlCommand(sqlQuery, connection))
-                {
-                    MySqlParameter par1 = new MySqlParameter("@city", city.Text);
-                    MySqlParameter par2 = new MySqlParameter("@company", company.Text);
-                    MySqlParameter par3 = new MySqlParameter("@clock", clock.Text);
-                    MySqlParameter par4 = new MySqlParameter("@price", price.Text);
-                    command.Parameters.Add(par1);
-                    command.Parameters.Add(par2);
-                    command.Parameters.Add(par3);
-                    command.Parameters.Add(par4);
-                    
-                    command.ExecuteNonQuery();
-                }
-            }
+            Ticket ticket = new Ticket(city.Text, company.Text, clock.Text, Convert.ToInt32(price.Text));
+            TicketSqlMethods.AddTicket(ticket);
+            MessageBox.Show("Биллет добавлен!");
         }
     }
 }

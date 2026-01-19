@@ -8,6 +8,6 @@ namespace AirlineTickets.Sql
 {
     internal class Constant
     {
-        public const string ConnectionString = "Server=localhost;Database=airtickets;Uid=root;Pwd=;";
+        public const string ConnectionString = "Server=localhost;Database=airtickets;Uid=root;Pwd=Stas15.rus;";
     }
 }
